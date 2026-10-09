@@ -18,8 +18,7 @@ interface Category {
 
 const CATEGORIES: Category[] = [
   { id: "all", name: "전체", icon: "🐸" },
-  { id: "study", name: "공부개굴", icon: "📚" },
-  { id: "work", name: "업무개굴", icon: "💼" },
+  { id: "todo", name: "할일개굴", icon: "📝" },
   { id: "idea", name: "아이디어개굴", icon: "💡" },
   { id: "etc", name: "기타개굴", icon: "🍀" },
 ];
@@ -161,7 +160,7 @@ export default function Home() {
   // 메모 상태
   const [notes, setNotes] = useState<Note[]>([]);
   const [inputText, setInputText] = useState("");
-  const [selectedCreateCat, setSelectedCreateCat] = useState("study");
+  const [selectedCreateCat, setSelectedCreateCat] = useState("todo");
   const [filterCat, setFilterCat] = useState("all");
 
   // 수정(편집) 모달 상태
@@ -221,10 +220,16 @@ export default function Home() {
               ? (item.color as ColorType)
               : COLOR_KEYS[index % COLOR_KEYS.length];
 
+            // 기존 study 또는 work 카테고리가 있다면 자연스럽게 todo로 매핑
+            let rawCat = String(item.category || "todo");
+            if (rawCat === "study" || rawCat === "work") {
+              rawCat = "todo";
+            }
+
             return {
               id: String(item.timestamp || Date.now() + index),
               content: String(item.content || ""),
-              categoryId: String(item.category || "study"),
+              categoryId: rawCat,
               color: validColor,
               dateStr: parsed.dateStr,
               timeStr: parsed.timeStr,

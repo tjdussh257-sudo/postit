@@ -68,7 +68,7 @@ function doPost(e) {
     if (action === "create") {
       const timestamp = body.timestamp || new Date().getTime().toString();
       const datetime = body.datetime || Utilities.formatDate(new Date(), "Asia/Seoul", "yyyy.MM.dd HH:mm");
-      const category = body.category || "study";
+      const category = body.category || "todo";
       const content = body.content || "";
       const color = body.color || "yellow";
       const state = body.state !== undefined ? body.state : "false"; // 완료 여부: 'false' | 'true'
