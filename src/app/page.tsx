@@ -530,58 +530,32 @@ export default function Home() {
           />
 
           <form onSubmit={handleAddNote} className="flex flex-col gap-4">
-            {/* 범주(카테고리) 선택 영역: 드롭다운 + 버튼 */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-              <div className="flex items-center gap-1.5 shrink-0">
-                <span
-                  className={`text-xs sm:text-sm font-bold flex items-center gap-1 whitespace-nowrap ${
-                    darkMode ? "text-emerald-200" : "text-emerald-950"
-                  }`}
-                >
-                  <span>🏷️</span> 범주 (카테고리 선택)
-                </span>
+            {/* 범주(카테고리) 선택 영역: 깔끔한 드롭다운 메뉴로 통합 */}
+            <div className="flex items-center gap-2">
+              <span
+                className={`text-xs sm:text-sm font-bold flex items-center gap-1 whitespace-nowrap ${
+                  darkMode ? "text-emerald-200" : "text-emerald-950"
+                }`}
+              >
+                <span>🏷️</span> 범주 (카테고리 선택):
+              </span>
 
-                {/* 모바일에서 특히 편리한 드롭다운 선택 메뉴 */}
-                <select
-                  value={selectedCreateCat}
-                  onChange={(e) => setSelectedCreateCat(e.target.value)}
-                  className={`text-xs font-bold px-2.5 py-1 rounded-xl border shadow-xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors ${
-                    darkMode
-                      ? "bg-[#182319] text-emerald-200 border-emerald-800"
-                      : "bg-white text-emerald-950 border-amber-300"
-                  }`}
-                >
-                  {creationCategories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.icon} {cat.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* 가로 칩 버튼 목록 (클릭으로도 선택 가능) */}
-              <div className="flex flex-wrap gap-1.5">
-                {creationCategories.map((cat) => {
-                  const isSelected = selectedCreateCat === cat.id;
-                  return (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      onClick={() => setSelectedCreateCat(cat.id)}
-                      className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1 shadow-xs cursor-pointer whitespace-nowrap ${
-                        isSelected
-                          ? "bg-[#0d631b] text-white shadow-md scale-105"
-                          : darkMode
-                          ? "bg-[#182319] text-emerald-200 hover:bg-[#203022] border border-emerald-900"
-                          : "bg-white/85 text-emerald-900 hover:bg-white"
-                      }`}
-                    >
-                      <span>{cat.icon}</span>
-                      <span>{cat.name}</span>
-                    </button>
-                  );
-                })}
-              </div>
+              {/* 카테고리 드롭다운 선택 메뉴 */}
+              <select
+                value={selectedCreateCat}
+                onChange={(e) => setSelectedCreateCat(e.target.value)}
+                className={`text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl border shadow-xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors ${
+                  darkMode
+                    ? "bg-[#182319] text-emerald-200 border-emerald-800"
+                    : "bg-white text-emerald-950 border-amber-300"
+                }`}
+              >
+                {creationCategories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.icon} {cat.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* 메모 내용 입력 텍스트영역 */}
