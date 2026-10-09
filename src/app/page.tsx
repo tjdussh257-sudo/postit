@@ -458,36 +458,38 @@ export default function Home() {
       </div>
 
       {/* 상단 헤더 & 개구리 로고 */}
-      <div className="flex flex-col items-center gap-2 mb-8 text-center">
-        <div className="flex items-center gap-3 justify-center">
+      <div className="flex flex-col items-center gap-2 mb-8 text-center w-full px-2">
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 justify-center">
           <div
-            className={`w-14 h-14 rounded-2xl shadow-sm border flex flex-col items-center justify-center p-1 relative transition-colors ${
+            className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-sm border flex flex-col items-center justify-center p-1 relative transition-colors shrink-0 ${
               darkMode
                 ? "bg-[#182d1c] border-emerald-800"
                 : "bg-white border-emerald-100"
             }`}
           >
-            <span className="text-2xl leading-none">🐸</span>
+            <span className="text-xl sm:text-2xl leading-none">🐸</span>
             <span
-              className={`text-[9px] font-bold tracking-tighter mt-0.5 ${
+              className={`text-[8px] sm:text-[9px] font-bold tracking-tighter mt-0.5 whitespace-nowrap ${
                 darkMode ? "text-emerald-400" : "text-emerald-800"
               }`}
             >
               FROG NOTES
             </span>
           </div>
+
           <h1
-            className={`text-3xl md:text-5xl font-extrabold tracking-tight flex items-center gap-2 transition-colors ${
+            className={`text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 transition-colors break-keep text-center ${
               darkMode ? "text-emerald-400" : "text-[#0d631b]"
             }`}
           >
-            개굴개굴 <span>Post-it Todo List</span>
+            <span className="whitespace-nowrap">개굴개굴</span>
+            <span className="whitespace-nowrap">Post-it Todo List</span>
           </h1>
         </div>
 
         {/* 까먹으면 개구리밥 태그 */}
         <div
-          className={`inline-flex items-center gap-1.5 px-4 py-1 rounded-full text-xs font-semibold shadow-xs border mt-1 ${
+          className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold shadow-xs border mt-1 whitespace-nowrap ${
             darkMode
               ? "bg-rose-950/80 text-rose-300 border-rose-800/60"
               : "bg-[#fde8e8] text-[#e02424] border-rose-200"
@@ -501,18 +503,18 @@ export default function Home() {
       {/* 중앙 메모 작성 폼 (포스트잇 스타일 입력창) */}
       <section className="w-full max-w-3xl relative mb-12">
         <div
-          className={`absolute -top-3 left-6 right-6 h-full rounded-3xl transform -rotate-1 opacity-70 pointer-events-none ${
+          className={`absolute -top-3 left-4 sm:left-6 right-4 sm:right-6 h-full rounded-3xl transform -rotate-1 opacity-70 pointer-events-none ${
             darkMode ? "bg-emerald-950/50" : "bg-[#d7f5dd]"
           }`}
         />
         <div
-          className={`absolute -top-1.5 left-3 right-3 h-full rounded-3xl transform rotate-1 opacity-80 pointer-events-none ${
+          className={`absolute -top-1.5 left-2 sm:left-3 right-2 sm:right-3 h-full rounded-3xl transform rotate-1 opacity-80 pointer-events-none ${
             darkMode ? "bg-amber-950/50" : "bg-[#fff4be]"
           }`}
         />
 
         <div
-          className={`relative rounded-3xl p-6 md:p-8 shadow-lg border transition-colors ${
+          className={`relative rounded-3xl p-5 sm:p-8 shadow-lg border transition-colors ${
             darkMode
               ? "bg-[#272a15] border-[#4a4f27]"
               : "bg-[#FFF59D] border-[#f6ea79]"
@@ -528,16 +530,36 @@ export default function Home() {
           />
 
           <form onSubmit={handleAddNote} className="flex flex-col gap-4">
-            {/* 범주(카테고리) 선택 버튼들 */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span
-                className={`text-xs md:text-sm font-bold flex items-center gap-1 mr-1 ${
-                  darkMode ? "text-emerald-200" : "text-emerald-950"
-                }`}
-              >
-                <span>🏷️</span> 범주 (카테고리 선택)
-              </span>
+            {/* 범주(카테고리) 선택 영역: 드롭다운 + 버튼 */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+              <div className="flex items-center gap-1.5 shrink-0">
+                <span
+                  className={`text-xs sm:text-sm font-bold flex items-center gap-1 whitespace-nowrap ${
+                    darkMode ? "text-emerald-200" : "text-emerald-950"
+                  }`}
+                >
+                  <span>🏷️</span> 범주 (카테고리 선택)
+                </span>
 
+                {/* 모바일에서 특히 편리한 드롭다운 선택 메뉴 */}
+                <select
+                  value={selectedCreateCat}
+                  onChange={(e) => setSelectedCreateCat(e.target.value)}
+                  className={`text-xs font-bold px-2.5 py-1 rounded-xl border shadow-xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors ${
+                    darkMode
+                      ? "bg-[#182319] text-emerald-200 border-emerald-800"
+                      : "bg-white text-emerald-950 border-amber-300"
+                  }`}
+                >
+                  {creationCategories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.icon} {cat.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* 가로 칩 버튼 목록 (클릭으로도 선택 가능) */}
               <div className="flex flex-wrap gap-1.5">
                 {creationCategories.map((cat) => {
                   const isSelected = selectedCreateCat === cat.id;
@@ -546,7 +568,7 @@ export default function Home() {
                       key={cat.id}
                       type="button"
                       onClick={() => setSelectedCreateCat(cat.id)}
-                      className={`px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1 shadow-xs cursor-pointer ${
+                      className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold transition-all flex items-center gap-1 shadow-xs cursor-pointer whitespace-nowrap ${
                         isSelected
                           ? "bg-[#0d631b] text-white shadow-md scale-105"
                           : darkMode
@@ -574,7 +596,7 @@ export default function Home() {
                 }}
                 rows={3}
                 placeholder="여기에 메모하라개굴~ (예: 오후 3시까지 파리 세 마리 잡고 연못 청소하기!)"
-                className={`w-full rounded-2xl p-4 text-sm md:text-base shadow-inner focus:outline-none focus:ring-2 focus:ring-[#0d631b] border resize-none transition-all ${
+                className={`w-full rounded-2xl p-4 text-sm md:text-base shadow-inner focus:outline-none focus:ring-2 focus:ring-[#0d631b] border resize-none transition-all break-keep ${
                   darkMode
                     ? "bg-[#161c16] text-emerald-100 placeholder:text-emerald-600/70 border-emerald-900/80"
                     : "bg-white text-slate-800 placeholder:text-emerald-800/50 border-amber-200"
@@ -586,7 +608,7 @@ export default function Home() {
             <div className="flex justify-end pt-1">
               <button
                 type="submit"
-                className="px-6 py-2.5 bg-[#0d631b] hover:bg-[#094c14] active:scale-95 text-white font-bold rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center gap-2 text-sm md:text-base cursor-pointer"
+                className="px-6 py-2.5 bg-[#0d631b] hover:bg-[#094c14] active:scale-95 text-white font-bold rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center gap-2 text-sm md:text-base cursor-pointer whitespace-nowrap"
               >
                 <span>📌</span>
                 <span>철컥! 붙이기</span>
@@ -598,11 +620,11 @@ export default function Home() {
       </section>
 
       {/* 포스트잇 게시판 섹션 헤더 & 카테고리 필터링 드롭다운 */}
-      <div className="w-full max-w-7xl flex flex-wrap items-center justify-between gap-3 border-b-2 border-emerald-200/50 pb-3 mb-8">
+      <div className="w-full max-w-7xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-emerald-200/50 pb-3 mb-8">
         <div className="flex items-center gap-2">
           <span className="text-xl">📌</span>
           <h2
-            className={`text-xl md:text-2xl font-extrabold ${
+            className={`text-xl md:text-2xl font-extrabold whitespace-nowrap ${
               darkMode ? "text-emerald-300" : "text-[#0d631b]"
             }`}
           >
@@ -611,14 +633,14 @@ export default function Home() {
         </div>
 
         {/* 카테고리별 필터 드롭다운 & 총 쪽지 카운터 */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
           <div className="flex items-center gap-1.5">
             <span
-              className={`text-xs font-semibold ${
-                darkMode ? "text-emerald-400" : "text-emerald-900"
+              className={`text-xs sm:text-sm font-bold whitespace-nowrap ${
+                darkMode ? "text-emerald-300" : "text-emerald-900"
               }`}
             >
-              필터:
+              🔍 카테고리 필터:
             </span>
             <select
               value={filterCat}
@@ -638,7 +660,7 @@ export default function Home() {
           </div>
 
           <div
-            className={`px-3 py-1 text-xs font-bold rounded-full border shadow-xs ${
+            className={`px-3 py-1 text-xs font-bold rounded-full border shadow-xs whitespace-nowrap ${
               darkMode
                 ? "bg-emerald-950 text-emerald-300 border-emerald-800"
                 : "bg-emerald-100/90 text-emerald-800 border-emerald-300/80"
